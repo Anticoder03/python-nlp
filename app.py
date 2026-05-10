@@ -19,8 +19,17 @@ nltk.download('stopwords')
 # =========================
 # LOAD SPACY MODEL
 # =========================
-nlp = spacy.load("en_core_web_sm")
+import spacy
+import subprocess
+import sys
 
+try:
+    nlp = spacy.load("en_core_web_sm")
+except:
+    subprocess.run(
+        [sys.executable, "-m", "spacy", "download", "en_core_web_sm"]
+    )
+    nlp = spacy.load("en_core_web_sm")
 # =========================
 # PAGE CONFIG
 # =========================
