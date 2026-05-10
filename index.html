@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>NLP Operations Dashboard</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+  <style>
+    body{
+      background:#0f172a;
+      color:white;
+      font-family:Arial, Helvetica, sans-serif;
+    }
+
+    textarea{
+      resize:none;
+    }
+
+    .card{
+      background:#1e293b;
+      border:1px solid #334155;
+    }
+
+    .output-box{
+      background:#020617;
+      border:1px solid #334155;
+      min-height:120px;
+      white-space:pre-wrap;
+      overflow:auto;
+    }
+  </style>
+</head>
+<body class="p-6">
+
+  <div class="max-w-7xl mx-auto">
+
+    <h1 class="text-4xl font-bold mb-2">
+      NLP Processing Dashboard
+    </h1>
+
+    <p class="text-slate-400 mb-10">
+      Tokenization, Stemming, Lemmatization, Stopword Removal and POS Tagging
+    </p>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+      <!-- SENTENCE TOKENIZATION -->
+      <div class="card rounded-2xl p-5">
+        <h2 class="text-2xl font-bold mb-4">
+          Sentence Tokenization
+        </h2>
+
+        <textarea id="sentenceInput"
+          class="w-full h-32 p-4 rounded-xl text-black"
+          placeholder="Enter paragraph..."></textarea>
+
+        <button id="sentenceBtn"
+          class="mt-4 bg-blue-500 hover:bg-blue-600 px-5 py-2 rounded-xl">
+          Tokenize Sentences
+        </button>
+
+        <div id="sentenceOutput"
+          class="output-box rounded-xl p-4 mt-4"></div>
+      </div>
+
+      <!-- WORD TOKENIZATION -->
+      <div class="card rounded-2xl p-5">
+        <h2 class="text-2xl font-bold mb-4">
+          Word Tokenization
+        </h2>
+
+        <textarea id="wordInput"
+          class="w-full h-32 p-4 rounded-xl text-black"
+          placeholder="Enter text..."></textarea>
+
+        <button id="wordBtn"
+          class="mt-4 bg-green-500 hover:bg-green-600 px-5 py-2 rounded-xl">
+          Tokenize Words
+        </button>
+
+        <div id="wordOutput"
+          class="output-box rounded-xl p-4 mt-4"></div>
+      </div>
+
+      <!-- STEMMING -->
+      <div class="card rounded-2xl p-5">
+        <h2 class="text-2xl font-bold mb-4">
+          Stemming
+        </h2>
+
+        <textarea id="stemInput"
+          class="w-full h-32 p-4 rounded-xl text-black"
+          placeholder="Enter words separated by space..."></textarea>
+
+        <button id="stemBtn"
+          class="mt-4 bg-pink-500 hover:bg-pink-600 px-5 py-2 rounded-xl">
+          Stem Words
+        </button>
+
+        <div id="stemOutput"
+          class="output-box rounded-xl p-4 mt-4"></div>
+      </div>
+
+      <!-- LEMMATIZATION -->
+      <div class="card rounded-2xl p-5">
+        <h2 class="text-2xl font-bold mb-4">
+          Lemmatization
+        </h2>
+
+        <textarea id="lemmaInput"
+          class="w-full h-32 p-4 rounded-xl text-black"
+          placeholder="Enter words separated by space..."></textarea>
+
+        <button id="lemmaBtn"
+          class="mt-4 bg-yellow-500 hover:bg-yellow-600 px-5 py-2 rounded-xl">
+          Lemmatize Words
+        </button>
+
+        <div id="lemmaOutput"
+          class="output-box rounded-xl p-4 mt-4"></div>
+      </div>
+
+      <!-- STOPWORD REMOVAL -->
+      <div class="card rounded-2xl p-5">
+        <h2 class="text-2xl font-bold mb-4">
+          Stopword Removal
+        </h2>
+
+        <textarea id="stopInput"
+          class="w-full h-32 p-4 rounded-xl text-black"
+          placeholder="Enter text..."></textarea>
+
+        <button id="stopBtn"
+          class="mt-4 bg-red-500 hover:bg-red-600 px-5 py-2 rounded-xl">
+          Remove Stopwords
+        </button>
+
+        <div id="stopOutput"
+          class="output-box rounded-xl p-4 mt-4"></div>
+      </div>
+
+      <!-- POS TAGGING -->
+      <div class="card rounded-2xl p-5">
+        <h2 class="text-2xl font-bold mb-4">
+          POS Tagging
+        </h2>
+
+        <textarea id="posInput"
+          class="w-full h-32 p-4 rounded-xl text-black"
+          placeholder="Enter sentence..."></textarea>
+
+        <button id="posBtn"
+          class="mt-4 bg-purple-500 hover:bg-purple-600 px-5 py-2 rounded-xl">
+          Analyze POS
+        </button>
+
+        <div id="posOutput"
+          class="output-box rounded-xl p-4 mt-4"></div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <script>
+
+    // Sentence Tokenization
+    $("#sentenceBtn").click(function(){
+
+      let text = $("#sentenceInput").val();
+
+      let result = text.match(/[^.!?]+[.!?]+/g);
+
+      $("#sentenceOutput").html(
+        JSON.stringify(result, null, 2)
+      );
+
+    });
+
+    // Word Tokenization
+    $("#wordBtn").click(function(){
+
+      let text = $("#wordInput").val();
+
+      let words = text.match(/[A-Za-z0-9$@.-]+/g);
+
+      $("#wordOutput").html(
+        JSON.stringify(words, null, 2)
+      );
+
+    });
+
+    // Stemming
+    $("#stemBtn").click(function(){
+
+      let text = $("#stemInput").val();
+
+      let words = text.split(" ");
+
+      let stemmed = words.map(word => {
+
+        return word
+          .replace(/ing$/,'')
+          .replace(/ed$/,'')
+          .replace(/s$/,'');
+
+      });
+
+      $("#stemOutput").html(
+        JSON.stringify(stemmed, null, 2)
+      );
+
+    });
+
+    // Lemmatization
+    $("#lemmaBtn").click(function(){
+
+      let text = $("#lemmaInput").val();
+
+      let words = text.split(" ");
+
+      let lemma = words.map(word => {
+
+        if(word === "running") return "run";
+        if(word === "studies") return "study";
+        if(word === "better") return "good";
+
+        return word;
+
+      });
+
+      $("#lemmaOutput").html(
+        JSON.stringify(lemma, null, 2)
+      );
+
+    });
+
+    // Stopword Removal
+    $("#stopBtn").click(function(){
+
+      let stopwords = [
+        "the","is","at","which","on","and",
+        "a","an","to","in","for","of"
+      ];
+
+      let text = $("#stopInput").val();
+
+      let words = text.split(" ");
+
+      let filtered = words.filter(word =>
+        !stopwords.includes(word.toLowerCase())
+      );
+
+      $("#stopOutput").html(
+        JSON.stringify(filtered, null, 2)
+      );
+
+    });
+
+    // POS TAGGING
+    $("#posBtn").click(function(){
+
+      let text = $("#posInput").val();
+
+      let words = text.split(" ");
+
+      let result = [];
+
+      words.forEach(word => {
+
+        let tag = "NOUN";
+
+        if(word.endsWith("ing")){
+          tag = "VERB";
+        }
+        else if(word.endsWith("ly")){
+          tag = "ADVERB";
+        }
+        else if(word.endsWith("ful")){
+          tag = "ADJECTIVE";
+        }
+
+        result.push({
+          word: word,
+          pos: tag
+        });
+
+      });
+
+      $("#posOutput").html(
+        JSON.stringify(result, null, 2)
+      );
+
+    });
+
+  </script>
+
+</body>
+</html>
