@@ -46,6 +46,7 @@ operation = st.sidebar.selectbox(
         "Word Tokenization",
         "Stemming",
         "Lemmatization",
+        "Stemming vs Lemmatization",
         "Stopword Removal",
         "POS Tagging"
     ]
@@ -143,6 +144,51 @@ elif operation == "Lemmatization":
 
         st.subheader("Unique Lemmatized Words")
         st.write(set(lemmatized_words))
+        
+# =========================
+# STEMMING VS LEMMATIZATION
+# =========================
+elif operation == "Stemming vs Lemmatization":
+
+    if st.button("Run Operation"):
+
+        stemmer = PorterStemmer()
+        lemmatizer = WordNetLemmatizer()
+
+        words = word_tokenize(text)
+
+        comparison_data = []
+
+        for word in words:
+
+            stemmed_word = stemmer.stem(word)
+            lemmatized_word = lemmatizer.lemmatize(word)
+
+            comparison_data.append({
+                "Original Word": word,
+                "Stemmed": stemmed_word,
+                "Lemmatized": lemmatized_word
+            })
+
+        st.subheader("Comparison Result")
+
+        st.table(comparison_data)
+
+        st.markdown("---")
+
+        st.markdown("""
+        ### Key Difference
+
+        - **Stemming**
+            - Faster
+            - Removes suffixes aggressively
+            - May produce invalid words
+
+        - **Lemmatization**
+            - Slower
+            - Uses dictionary meaning
+            - Produces meaningful words
+        """)
 
 # =========================
 # STOPWORD REMOVAL
