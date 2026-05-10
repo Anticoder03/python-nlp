@@ -44,7 +44,8 @@ st.set_page_config(
 # TITLE
 # =========================
 st.title("🧠 NLP Pipeline Dashboard")
-st.write("Built using NLTK + spaCy + Streamlit")
+st.write("Built using NLTK + spaCy + Streamlit + ❤️")
+st.write("created by Anticoder03")
 
 # =========================
 # SIDEBAR
